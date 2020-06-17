@@ -12,12 +12,12 @@ module.exports = (app) => {
     const role = require('../Middlewares/role.mdw');
     const { isAdmin, isUser, isTeacher } = role;
 
-    app.use('/login', login);
-    app.use('/admin', restrict, isAdmin, admin);
-    app.use('/', shop);
-    app.use('/product', product);
-    app.use('/category', category);
-    app.use('/cart', restrict, isUser, cart);
-    app.use('/mycourse', restrict,isUser, mycourse);
-    app.use('/myclass', restrict, isTeacher, myclass);
+    app.use('/app/login', login);
+    app.use('/app/admin', restrict, isAdmin, admin);
+    app.use('/app/', shop);
+    app.use('/app/product', product);
+    app.use('/app/category', category);
+    app.use('/app/cart', restrict, isUser, cart);
+    app.use('/app/mycourse', restrict,isUser, mycourse);
+    app.use('/app/myclass', restrict, isTeacher, myclass);
 }

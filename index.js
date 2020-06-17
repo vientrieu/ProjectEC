@@ -21,8 +21,8 @@ let expressHbs = require('express-handlebars');
 let hbs = expressHbs.create({
     extname :'hbs',
     defaultLayout: 'client',
-    layoutsDir:__dirname + '/Views/Layouts',
-    partialsDir:__dirname + '/Views/Partials'
+    layoutsDir:__dirname + '/views/Layouts',
+    partialsDir:__dirname + '/views/Partials'
 });
 app.engine('hbs',hbs.engine);
 app.set('view engine','hbs');

@@ -16,7 +16,7 @@ module.exports = {
               Category.find({})
                 .lean()
                 .then((AllCategory) => {
-                  res.render("/Client/index", {
+                  res.render("index", {
                     Category: categoryList,
                     Product: productList,
                     Count: count,

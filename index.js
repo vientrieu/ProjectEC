@@ -58,4 +58,5 @@ require('./Middlewares/routes.mdw')(app);
 //app.set('port',process.env.PORT || 3000);
 app.listen(process.env.PORT || 32066, () => {
     console.log(`Server is running at port ${app.get('port')}`);
+    console.log(__dirname);
 });

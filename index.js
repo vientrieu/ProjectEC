@@ -9,7 +9,7 @@ var flash    = require('connect-flash');
 
 
 User = require('./Models/user.model');
-const PORT = process.env.PORT || 5000;
+//const PORT = process.env.PORT || 5000;
 const URI = "mongodb+srv://20A09team:admin@cluster0-4kpyf.gcp.mongodb.net/test?retryWrites=true&w=majority";
 
 
@@ -55,7 +55,7 @@ require('./Databases/mongodb')(URI);
 require('./Middlewares/routes.mdw')(app);
 
 //set server port & start server
-app.set('port',PORT);
+app.set('port',process.env.PORT || 3000;);
 app.listen(app.get('port'), () => {
     console.log(`Server is running at port ${app.get('port')}`);
 });

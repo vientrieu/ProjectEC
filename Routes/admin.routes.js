@@ -41,7 +41,10 @@ router.post('/client-management/upgrade/:id',(req, res)=>{
     let id = req.params.id;
     controlleradmin.UpgradeUser(req,res,id);
 });
-
+router.post('/product-management/upgrade/:id',(req, res)=>{
+    let id = req.params.id;
+    controlleradmin.UpgradeProduct(req,res,id);
+});
 router.post('/product-management/delete/:id',(req, res)=>{
     let id = req.params.id;
     controlleradmin.DeleteProduct(req,res,id);

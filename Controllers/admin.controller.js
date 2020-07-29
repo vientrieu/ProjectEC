@@ -2,30 +2,31 @@ const User = require("../Models/user.model");
 const Product = require("../Models/product.model");
 const Bill = require("../Models/bill.model");
 const Course= require("../Models/course.model");
+const Class= require("../Models/class.model");
 module.exports = {
-    addproduct: async ()=>
-    {
-        for(var i=0;i<3;i++)
-        {
-            const newProduct = new Product({
-                name: "product "+i,
-                category: {
-                    id: "id "+i,
-                    name: "category "+i
-                },
-                descriptionshort: "short",
-                descriptionfull: "full",
-                author: {
-                    id: "id "+i,
-                    name: "Tác giả "+i
-                },
-                price: i*10000
-            });
-            newProduct
-                .save()
-                .catch((err) => console.log(err));
-        }
-    },
+    // addproduct: async ()=>
+    // {
+    //     for(var i=0;i<3;i++)
+    //     {
+    //         const newProduct = new Product({
+    //             name: "product "+i,
+    //             category: {
+    //                 id: "id "+i,
+    //                 name: "category "+i
+    //             },
+    //             descriptionshort: "short",
+    //             descriptionfull: "full",
+    //             author: {
+    //                 id: "id "+i,
+    //                 name: "Tác giả "+i
+    //             },
+    //             price: i*10000
+    //         });
+    //         newProduct
+    //             .save()
+    //             .catch((err) => console.log(err));
+    //     }
+    // },
     // adduser: async ()=>
     // {
     //     for(var i=0;i<20;i++)
@@ -75,29 +76,19 @@ module.exports = {
     //             .catch((err) => console.log(err));
     //     }
     // },
-    AddMyCourse: async ()=>
-    {
-        for(var i=0;i<10;i++)
-        {
-            const newcourse = new Course({
-                iduser: "5ecaa161752cec16d0ed13b"+i,
-                idproducts: ["5ec7f3e610722e0198360b67","5ec7f3e610722e0198360b68","5ec7f3e610722e0198360b69"],
-            });
-            newcourse
-                .save()
-                .catch((err) => console.log(err));
-        }
-    },
-            // result.docs
-            // result.totalDocs = 100
-            // result.limit = 10
-            // result.page = 1
-            // result.totalPages = 10
-            // result.hasNextPage = true
-            // result.nextPage = 2
-            // result.hasPrevPage = false
-            // result.prevPage = null
-            // result.pagingCounter = 1
+    // AddMyCourse: async ()=>
+    // {
+    //     for(var i=0;i<10;i++)
+    //     {
+    //         const newcourse = new Course({
+    //             iduser: "5ecaa161752cec16d0ed13b"+i,
+    //             idproducts: ["5ec7f3e610722e0198360b67","5ec7f3e610722e0198360b68","5ec7f3e610722e0198360b69"],
+    //         });
+    //         newcourse
+    //             .save()
+    //             .catch((err) => console.log(err));
+    //     }
+    // },
 
     //user management
     LoadAllUser: async (req, res, pageNum)=>
@@ -129,6 +120,15 @@ module.exports = {
     UpgradeUser: async (req,res,id)=>
     {
         User.findByIdAndUpdate(id, {role: 1}, function(err, result) {})
+        .then((Teacher)=>{
+            const newclass = new Class({
+                iduser: Teacher._id,
+                idcourses: [],
+            });
+            newcourse
+                .save()
+                .catch((err) => console.log(err));          
+        })
         .catch((err) => console.log(err));
     },
 
@@ -161,6 +161,11 @@ module.exports = {
             .catch((err) => console.log(err));
     },
 
+    UpgradeProduct: async (req,res,id)=>
+    {
+        Product.findByIdAndUpdate(id, {check: 1}, function(err, result) {})
+        .catch((err) => console.log(err));
+    },
      //bill management
     LoadAllBill: async (req, res, pageNum) => {
         const options = {

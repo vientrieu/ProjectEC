@@ -17,11 +17,11 @@ const productSchema = new Schema(
 		price: Number,
 		pathImg :String,
 		video : Array,
-		commments : 
-		{
-			 idUser: String,
-			 comment: String,
-		},
+		comment : 
+		[{
+			 iduser: String,
+			 com: String,
+		}],
 		discount: {
 			type: Number,
 			default: 0,

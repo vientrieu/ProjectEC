@@ -4,29 +4,27 @@
 const User = require("../Models/user.model");
 const Product = require("../Models/product.model");
 const Category = require("../Models/category.model");
+const { count } = require("../Models/user.model");
 module.exports = {
   loadall: async (req, res) => {
     Category.find()
       .lean()
       .then((categoryList) => {
-        Product.find()
+        Product.find({},{},{limit:8})
+          .sort({createdAt:-1})
           .lean()
           .then((productList) => {
             Product.countDocuments().then((count) => {
-              Category.find({})
-                .lean()
-                .then((AllCategory) => {
                   res.render("./Client/index", {
                     Category: categoryList,
                     Product: productList,
                     Count: count,
-                    AllCategory: AllCategory,
+                    User: req.user,
+                    Page: "Home"
                   });
                 });
             });
           })
-          .catch((err) => console.log(err));
-      })
       .catch((err) => console.log(err));
   },
 };

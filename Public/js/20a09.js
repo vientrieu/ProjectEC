@@ -11,6 +11,10 @@ function RemoveProduct(_id) {
   $(`#${_id}`).remove();
   $.post(`/admin/product-management/delete/${_id}`);
 }
+function UpgradeProduct(_id) {
+  $(`#btn-upgrade${_id}`).remove();
+  $.post(`/admin/product-management/upgrade/${_id}`);
+}
 function RemoveBill(_id) {
   $(`#${_id}`).remove();
   $.post(`/admin/business-management/delete/${_id}`);
@@ -28,7 +32,7 @@ function AddToCart(_id) {
   $('.toast').toast('show');
 }
 function RemoveCart(_id, price, discount) {
-  var total = $(`#totalprice`).text();
+  var total = parseFloat($(`#totalprice`).text());
   total = total - price * (1 - discount);
   $(`#totalprice`).text(total);
   $(`#${_id}`).remove();
@@ -42,6 +46,16 @@ $("#gotopage").change(function () {
     ).val()}" class="btn btn-danger btn-rounded btn-sm my-0" >Đi đến</a>`
   );
 });
+function postcomment(idpr) {
+  var cmt = $("#commenttext").val();
+  $("#commenttext").val("");
+  var txt = "<li><b>Your comment</b></li>";
+  var txt2 = `<p>${cmt}</p>`
+  $('#listcomment').append(txt,txt2);
+  $.post(`/mycourse/${idpr}`,
+  {cmt: cmt}
+  );
+}
 function searchByNameProduct(e) {
   //window.event.preventDefault();
   //console.log("aaaa");

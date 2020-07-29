@@ -4,20 +4,20 @@ module.exports = {
     LoadCart: async (req, res, idUser) => {
         Cart.findOne({iduser:idUser}).lean()
             .then(async (MyCart) => {
-               // console.log(MyCart);
                let TotalPrice = 0;
-               //console.log(MyCart);
                 let listproduct = await Promise.all(MyCart.idproducts.map(async idproduct => {
                     let product = await Product.findById(idproduct).lean();
                     TotalPrice += product.price*(1-product.discount);
-                    return ({ ...MyCart, productlist: product });
+                    return (product);
                 }));
                 Cart.findByIdAndUpdate(MyCart._id, {totalprice:TotalPrice}, function(err, result) {});
                 res.render('./Client/shop-cart', {
                     layout: 'client',
                     total: TotalPrice,
                     list: listproduct,
-                    User: req.user, 
+                    User: req.user,
+                    Cart: "active",
+                    Page: "Cart"
                 });
             })
     },

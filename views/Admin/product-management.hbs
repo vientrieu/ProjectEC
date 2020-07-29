@@ -44,9 +44,17 @@
                                 <td >
                                     {{price}}
                                 </td>
+                                {{#if check}}
                                 <td>
                                     <button type="button" class="btn btn-danger btn-rounded btn-sm my-0" onclick="RemoveProduct(`{{_id}}`)">Delete</button>
                                 </td>
+                                {{else}}
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-rounded btn-sm my-0" onclick="RemoveProduct(`{{_id}}`)">Delete</button>
+                                     <button type="button" class="btn btn-success btn-rounded btn-sm my-0" id="btn-upgrade{{_id}}"
+                                        onclick="UpgradeProduct(`{{_id}}`)">Upgrade</button>
+                                </td>
+                                {{/if}}
                             </tr>
                             {{/each}}
                         </tbody>

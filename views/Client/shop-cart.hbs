@@ -1,21 +1,3 @@
-<!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="breadcrumb__text">
-                    <h2>Shopping Cart</h2>
-                    <div class="breadcrumb__option">
-                        <a href="/">Home</a>
-                        <span>Shopping Cart</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Breadcrumb Section End -->
-
 <!-- Shoping Cart Section Begin -->
 <section class="shoping-cart spad">
     <div class="container">
@@ -33,20 +15,21 @@
                         </thead>
                         <tbody>
                             {{#each list}}
-                            <tr id="{{productlist._id}}"`>
+                            <tr id="{{_id}}" `>
                                 <td class="shoping__cart__item">
-                                    <img src="{{productlist.pathImg}}" height="100px" alt="">
-                                    <h5>{{productlist.name}}</h5>
+                                    <img src="{{pathImg}}" height="100px" alt="">
+                                    <h5>{{name}}</h5>
                                 </td>
                                 <td class="shoping__cart__price">
-                                    {{productlist.price}}
+                                    {{price}}
                                 </td>
                                 <td class="shoping__cart__price">
-                                    {{productlist.discount}}
+                                    {{discount}}
                                 </td>
                                 </td>
                                 <td class="shoping__cart__item__close">
-                                    <span class="icon_close" onclick="RemoveCart(`{{productlist._id}}`,`{{productlist.price}}`,`{{productlist.discount}}`)"></span>
+                                    <span class="icon_close"
+                                        onclick="RemoveCart(`{{_id}}`,`{{price}}`,`{{discount}}`)"></span>
                                 </td>
                             </tr>
                             {{/each}}
@@ -82,21 +65,37 @@
             </div>
             <div class="col-lg-5">
                 <div class="shoping__checkout">
-                    <b><h3>Cart Total:</h3></b>
-                    <b><center><h3 id="totalprice">{{total}}$</h3></center></b>
+                    <b>
+                        <h3>Cart Total:</h3>
+                    </b>
+                    <b>
+                        <center>
+                            <h3 id="totalprice">{{total}}$</h3>
+                        </center>
+                    </b>
                     <p></p>
-                    <div class="dropdown"><center>
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Payment</button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <form action="/pay" method="POST">
+                    <div class="dropdown">
+                        <center>
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Payment</button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <form action="/pay" method="POST">
                                     <a class="dropdown-item" href="/pay">Paypal</a></form>
-                                    <a class="dropdown-item" href="#">VNPay</a>
-                                    <a class="dropdown-item" href="#">Other</a>
-                                </div></center>
+                                <form action="/pay/create_payment_url" method="POST">
+                                <label for="amount" hidden>
+                                <input class="form-control" id="amount" name="amount" placeholder="Số tiền" value={{total}} />
+                                </label>
+                                       <button class="btn btn-default" id="btnPopup" type="submit">VNPay</button>
+                                </form>
+
+                                <!--<a class="dropdown-item" href="/order/create_payment_url">VNPay</a>-->
+                                <a class="dropdown-item" href="#">Other</a>
                             </div>
+                        </center>
+                    </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </section>

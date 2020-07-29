@@ -5,19 +5,20 @@ module.exports = (app) => {
     product = require('../Routes/product.routes');
     category = require('../Routes/category.routes');
     cart = require('../Routes/cart.routes');
+    pay = require('../routes/pay.routes');
     mycourse = require('../Routes/mycourse.routes');
     myclass = require('../Routes/myclass.routes');
     restrict = require('../Middlewares/auth.mdw').checkAuthenticated;
-    checkAuth = require('../Middlewares/auth.mdw').Authenticated;
     const role = require('../Middlewares/role.mdw');
-    const { isAdmin, isUser, isTeacher } = role;
-
-    app.use('/login', login);
-    app.use('/admin', restrict, isAdmin, admin);
-    app.use('/', shop);
-    app.use('/product', product);
-    app.use('/category', category);
-    app.use('/cart', restrict, isUser, cart);
-    app.use('/mycourse', restrict,isUser, mycourse);
-    app.use('/myclass', restrict, isTeacher, myclass);
+    const { settingRole, isAdmin, isUser, isTeacher } = role;
+    
+    app.use('/login', settingRole, login);
+    app.use('/admin', restrict, settingRole, isAdmin, admin);
+    app.use('/', settingRole, shop);
+    app.use('/product', settingRole, product);
+    app.use('/category', settingRole, category);
+    app.use('/cart', restrict, settingRole, isUser, cart);
+    app.use('/mycourse', restrict, settingRole, isUser, mycourse);
+    app.use('/myclass', restrict, settingRole, isTeacher, myclass);
+    app.use('/pay',restrict, settingRole, isUser, pay);
 }

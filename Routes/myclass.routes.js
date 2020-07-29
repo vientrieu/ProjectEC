@@ -31,6 +31,7 @@ router.get('/addcourse',(req, res) => {
     //console.log(id);
     //controllerMyClass.AddCourseToMyClass(idtest2, id);
     //console.log("Add class sucessfully!");
+    
     controllerMyClass.LoadAllClasses(req, res, idtest2);
  });
 

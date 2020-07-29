@@ -6,25 +6,41 @@ const Product = require("../Models/product.model");
 const Category = require("../Models/category.model");
 
 module.exports = {
-  loadall: async (req, res, pageNum,sort) => {
-    let key=1;
-    if(sort =="PriceDescending") key=-1;
-    const options = {
+  // danh sach product
+  loadall: async (req, res, pageNum, sort) => {
+    let key = 1;
+    //Kiem tra sap xep thu tu tang dan hay giam dan
+    if (sort == "PriceDescending" || sort == "LengthDescending") key = -1;
+    //var options = {};
+    var options = {
       page: pageNum,
       limit: 9,
       lean: true,
       sort: { price: key },
     };
+    //Xu ly sap xem theo price
+    if (sort == "PriceAscending" || sort == "PriceDescending") {
+    }
+    //Xu ly sap xem theo name
+    if (sort == "LengthAscending" || sort == "LengthDescending") {
+      options = {
+        page: pageNum,
+        limit: 9,
+        lean: true,
+        sort: { name: key },
+      };
+    }
     Category.find()
       .lean()
       .then((listCategory) => {
+        // lay thong tin category
         Product.find({ check: 1 })
           .countDocuments()
           .lean()
           .then((Count) => {
             Product.paginate({ check: 1 }, options, function (err, result) {
+              // lay danh sach product va sap xem theo options
               res.render("./Client/shop-grid product test", {
-                product: "active",
                 totalpages: result.totalPages,
                 prev: result.prevPage,
                 now: result.page,
@@ -36,6 +52,7 @@ module.exports = {
                 Count: Count,
                 ShopGrid: "active",
                 User: req.user,
+                Page: "Shop",
               });
             });
           })
@@ -43,25 +60,35 @@ module.exports = {
       })
       .catch((err) => console.log(err));
   },
+  // lay product theo id
   loadId: async (req, res, id) => {
     Product.findById(id)
       .sort({ price: 1 })
       .lean()
       .then((productList) => {
+        // xuat product theo id
         Category.find({ name: productList.category.name })
           .lean()
           .then((categoryList) => {
+            // lay thong tin category cua producct
             Category.find({})
               .sort({ name: 1 })
               .lean()
               .then((AllCategory) => {
-                res.render("./Client/shop-details product test", {
-                  Product: productList,
-                  Category: categoryList,
-                  AllCategory: AllCategory,
-                  ShopGrid: "active",
-                  User: req.user,
-                });
+                Product.find({ "category.name": productList.category.name })
+                  .limit(5)
+                  .lean()
+                  .then((productRelated) => {
+                    res.render("./Client/shop-details product test", {
+                      Product: productList,
+                      Category: categoryList,
+                      AllCategory: AllCategory,
+                      ShopGrid: "active",
+                      User: req.user,
+                      productRelated: productRelated,
+                      Page: "Product details",
+                    });
+                  });
               })
               .catch((err) => console.log(err));
           })
@@ -69,17 +96,30 @@ module.exports = {
       })
       .catch((err) => console.log(err));
   },
-  loadSearchByNameProduct: async (req, res, query, pageNum,sort) => {
-    //query= '/' +query+ '/';\
-    let key=1;
-    if(sort =="PriceDescending") key=-1;
-
-    const options = {
+  // seach by name product
+  loadSearchByNameProduct: async (req, res, query, pageNum, sort) => {
+    let key = 1;
+    //Kiem tra sap xep thu tu tang dan hay giam dan
+    if (sort == "PriceDescending" || sort == "LengthDescending") key = -1;
+    //var options = {};
+    var options = {
       page: pageNum,
       limit: 9,
       lean: true,
       sort: { price: key },
     };
+    //Xu ly sap xem theo price
+    if (sort == "PriceAscending" || sort == "PriceDescending") {
+    }
+    //Xu ly sap xem theo name
+    if (sort == "LengthAscending" || sort == "LengthDescending") {
+      options = {
+        page: pageNum,
+        limit: 9,
+        lean: true,
+        sort: { name: key },
+      };
+    }
     Category.find()
       .lean()
       .then((listCategory) => {
@@ -106,7 +146,8 @@ module.exports = {
                   Count: Count,
                   ShopGrid: "active",
                   User: req.user,
-                  querySearch :query,
+                  querySearch: query,
+                  Page: "Shop",
                 });
               }
             );
@@ -115,16 +156,30 @@ module.exports = {
       })
       .catch((err) => console.log(err));
   },
-  loadSearchByNameCategory: async (req, res, query, pageNum,sort) => {
-    //query= '/' +query+ '/';
-    let key=1;
-    if(sort =="PriceDescending") key=-1;
-    const options = {
+  // seach by name category
+  loadSearchByNameCategory: async (req, res, query, pageNum, sort) => {
+    let key = 1;
+    //Kiem tra sap xep thu tu tang dan hay giam dan
+    if (sort == "PriceDescending" || sort == "LengthDescending") key = -1;
+    //var options = {};
+    var options = {
       page: pageNum,
       limit: 9,
       lean: true,
       sort: { price: key },
     };
+    //Xu ly sap xem theo price
+    if (sort == "PriceAscending" || sort == "PriceDescending") {
+    }
+    //Xu ly sap xem theo name
+    if (sort == "LengthAscending" || sort == "LengthDescending") {
+      options = {
+        page: pageNum,
+        limit: 9,
+        lean: true,
+        sort: { name: key },
+      };
+    }
     Category.find()
       .lean()
       .then((listCategory) => {
@@ -151,7 +206,9 @@ module.exports = {
                   Category: listCategory,
                   AllCategory: listCategory,
                   Count: Count,
-                  querySearch :query,
+                  ShopGrid: "active",
+                  querySearch: query,
+                  Page: "Shop",
                 });
               }
             );
@@ -160,16 +217,30 @@ module.exports = {
       })
       .catch((err) => console.log(err));
   },
-  loadSearchByPrice: async (req, res, query, pageNum,sort) => {
-    //query= '/' +query+ '/';
-    let key=1;
-    if(sort =="PriceDescending") key=-1;
-    const options = {
+  // seach by name price
+  loadSearchByPrice: async (req, res, query, pageNum, sort) => {
+    let key = 1;
+    //Kiem tra sap xep thu tu tang dan hay giam dan
+    if (sort == "PriceDescending" || sort == "LengthDescending") key = -1;
+    //var options = {};
+    var options = {
       page: pageNum,
       limit: 9,
       lean: true,
-      sort: { name: key },
+      sort: { price: key },
     };
+    //Xu ly sap xem theo price
+    if (sort == "PriceAscending" || sort == "PriceDescending") {
+    }
+    //Xu ly sap xem theo name
+    if (sort == "LengthAscending" || sort == "LengthDescending") {
+      options = {
+        page: pageNum,
+        limit: 9,
+        lean: true,
+        sort: { name: key },
+      };
+    }
     Category.find()
       .lean()
       .then((listCategory) => {
@@ -181,40 +252,55 @@ module.exports = {
           .countDocuments()
           .lean()
           .then((Count) => {
-            Product.paginate(
-              { price: query, check: 1 },
-              options,
-              function (err, result) {
-                res.render("./Client/shop-grid product test", {
-                  product: "active",
-                  totalpages: result.totalPages,
-                  prev: result.prevPage,
-                  now: result.page,
-                  next: result.nextPage,
-                  list: result.docs,
-                  Product: result.docs,
-                  Category: listCategory,
-                  AllCategory: listCategory,
-                  Count: Count,
-                  querySearch :query,
-                });
-              }
-            );
+            Product.paginate({ price: query, check: 1 }, options, function (
+              err,
+              result
+            ) {
+              res.render("./Client/shop-grid product test", {
+                product: "active",
+                totalpages: result.totalPages,
+                prev: result.prevPage,
+                now: result.page,
+                next: result.nextPage,
+                list: result.docs,
+                Product: result.docs,
+                Category: listCategory,
+                AllCategory: listCategory,
+                ShopGrid: "active",
+                Count: Count,
+                querySearch: query,
+                Page: "Shop",
+              });
+            });
           })
           .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   },
-  loadSearchByNameAuthor: async (req, res, query, pageNum,sort) => {
-    //query= '/' +query+ '/';
-    let key=1;
-    if(sort =="PriceDescending") key=-1;
-    const options = {
+  // seach by name author
+  loadSearchByNameAuthor: async (req, res, query, pageNum, sort) => {
+    let key = 1;
+    //Kiem tra sap xep thu tu tang dan hay giam dan
+    if (sort == "PriceDescending" || sort == "LengthDescending") key = -1;
+    //var options = {};
+    var options = {
       page: pageNum,
       limit: 9,
       lean: true,
       sort: { price: key },
     };
+    //Xu ly sap xem theo price
+    if (sort == "PriceAscending" || sort == "PriceDescending") {
+    }
+    //Xu ly sap xem theo name
+    if (sort == "LengthAscending" || sort == "LengthDescending") {
+      options = {
+        page: pageNum,
+        limit: 9,
+        lean: true,
+        sort: { name: key },
+      };
+    }
     Category.find()
       .lean()
       .then((listCategory) => {
@@ -240,8 +326,10 @@ module.exports = {
                   Product: result.docs,
                   Category: listCategory,
                   AllCategory: listCategory,
+                  ShopGrid: "active",
                   Count: Count,
-                  querySearch :query,
+                  querySearch: query,
+                  Page: "Shop",
                 });
               }
             );

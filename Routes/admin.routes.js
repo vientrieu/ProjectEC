@@ -10,7 +10,7 @@ router.get('/',(req, res)=>{
 });
 
 router.get('/statistic',(req, res)=>{
-    res.render('./Admin/statistic',{layout:'admin', page:'Thống kê', statistic:'active'});
+    controlleradmin.Statistic(req, res);
 });
 
 router.get('/product-management/:pageNumber',(req, res)=>{

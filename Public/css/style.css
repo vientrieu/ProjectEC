@@ -147,8 +147,8 @@ ol {
 }
 
 .spad {
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 30px;
+    padding-bottom: 20px;
 }
 
 .text-white h1,
@@ -487,7 +487,7 @@ ol {
 }
 
 .header__menu ul li a {
-    font-size: 14px;
+    font-size: 15px;
     color: #252525;
     text-transform: uppercase;
     font-weight: 700;
@@ -716,6 +716,7 @@ ol {
     right: 0;
     top: -1px;
     height: 50px;
+    margin-left: 30px;
 }
 
 .hero__search__phone {
@@ -837,7 +838,7 @@ ol {
 -----------------------*/
 
 .featured {
-    padding-top: 80px;
+    padding-top: 40px;
     padding-bottom: 40px;
 }
 
@@ -953,12 +954,9 @@ ol {
 
 .featured__item__text {
     text-align: center;
-    padding-top: 15px;
 }
 
-.featured__item__text h6 {
-    margin-bottom: 10px;
-}
+.featured__item__text h6 {}
 
 .featured__item__text h6 a {
     color: #252525;
@@ -1317,8 +1315,8 @@ ol {
 -----------------------*/
 
 .product {
-    padding-top: 40px;
-    padding-bottom: 80px;
+    padding-top: 20px;
+    padding-bottom: 5breadcrumb-item0px;
 }
 
 .product__discount {
@@ -1669,8 +1667,8 @@ ol {
     padding-top: 15px;
 }
 
-.product__item__text h6 {
-    margin-bottom: 10px;
+.product__item__text h6 div {
+    display: none;
 }
 
 .product__item__text h6 a {
@@ -1679,11 +1677,15 @@ ol {
 }
 
 .product__item__text h6 a:hover {
-    color: #db1212;
-    font-size: 22px;
+    color: #c41212;
+    font-size: 18px;
 }
 
-.product__item__text h5 {
+.product__item__text h6 a:hover>div {
+    display: block;
+}
+
+.product__item__text h3 {
     color: #252525;
     font-weight: 700;
 }
@@ -1730,7 +1732,8 @@ ol {
 -----------------------*/
 
 .product-details {
-    padding-top: 40px;
+    padding-top: 20px;
+    margin-bottom: 20px;
 }
 
 .product__details__pic__item {
@@ -1751,9 +1754,9 @@ ol {
 
 .product__details__text h3 {
     color: #252525;
-    font-weight: 700;
+    font-weight: 600;
     margin-bottom: 16px;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .product__details__text .product__details__rating {
@@ -1775,7 +1778,7 @@ ol {
     font-size: 30px;
     color: #dd2222;
     font-weight: 600;
-    margin-bottom: 25px;
+    margin-bottom: 50px;
 }
 
 .product__details__text p {
@@ -1829,6 +1832,10 @@ ol {
     width: 150px;
     display: inline-block;
     padding-left: 50px;
+}
+
+.product__details__text ul li a span:hover {
+    color: #dd2222;
 }
 
 .product__details__text ul li span samp {
@@ -1934,9 +1941,11 @@ ol {
 }
 
 .product__details__tab .product__details__tab__desc h6 {
-    font-weight: 700;
-    color: #2b2626;
+    font-weight: 600;
+    color: #352f2f;
     margin-bottom: 26px;
+    font-size: medium;
+    padding-left: 40px;
 }
 
 .product__details__tab .product__details__tab__desc p {
@@ -1966,7 +1975,7 @@ ol {
 }
 
 .shoping-cart {
-    padding-top: 80px;
+    padding-top: 20px;
     padding-bottom: 80px;
 }
 
@@ -2370,6 +2379,7 @@ ol {
 
 .blog__item__pic img {
     min-width: 100%;
+    height: 200px;
 }
 
 .blog__item__text {
@@ -2741,7 +2751,6 @@ ol {
 
 .footer {
     background: #F3F6FA;
-    padding-top: 70px;
     padding-bottom: 0;
 }
 
@@ -3034,7 +3043,7 @@ ol {
 
 @media only screen and (min-width: 1200px) {
     .container {
-        max-width: 1170px;
+        max-width: 1250px;
     }
 }
 
@@ -3724,13 +3733,8 @@ body {
 }
 
 .fads a span:hover {
-    font-size: 17px;
+    font-size: 16px;
     color: red;
-}
-
-.details p {
-    color: red;
-    margin-bottom: 1px;
 }
 
 .button-category {
@@ -3742,4 +3746,75 @@ body {
 .button-category:hover {
     font-size: 18px;
     color: blanchedalmond;
+}
+
+.product-details-tab {
+    background-color: #F3F6FA;
+    padding: 20px 20px 20px 20px;
+    border-radius: 30px;
+}
+
+.title-p {
+    font-size: 15px;
+    font-weight: 600;
+    padding-right: 0.4rem;
+}
+
+.details p {
+    font-size: 14px;
+    color: gray;
+    margin: 1px 1px 1px 1px;
+}
+
+.details span {
+    font-size: 17px;
+    color: red;
+}
+
+.hl {
+    color: red;
+}
+
+.price-product {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.price-product h5 {
+    font-weight: bolder;
+    padding-top: 10px;
+}
+
+.price-product b {
+    font-size: 17px;
+}
+
+.container.ct img {
+    width: 100%;
+}
+
+#contact {
+    margin-top: 40px;
+}
+
+.breadcrumb a:hover {
+    color: red;
+}
+
+.hot-key li {
+    padding: 0px 5px 10px 10px;
+}
+
+.hot-key li p {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.productRelated div.txt {
+    display: none;
+}
+
+.productRelated div :hover>.txt {
+    display: block;
 }

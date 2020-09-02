@@ -61,12 +61,12 @@
             <br>
             <br>
             <div class="row pb-6 d-flex align-items-center">
-                <div class="col-lg-3 col-sm-5 col-xs-12" style="background:darkgray">
+                <div class="col-lg-3 col-sm-5 col-xs-12" style="background: #dfdddd;">
                     <br>
                     {{#each User}}
                     {{#if email}}
                     {{#if avatar}}
-                    <div class="text-center">
+                    <div class="text-center" style="background-color: aliceblue;">
                         <img src="{{avatar}}" alt="">
                     </div>
                     {{else}}
@@ -77,13 +77,14 @@
                     {{/if}}
                     {{#if address}}
                     <br>
-                    <div class="text-center">
+                    <div class="text-center"
+                        style="width: 100%;background-color:aliceblue;padding-top: 10px;padding-bottom: 10px;">
                         <h4>{{displayname}}</h4>
                     </div>
                     <br>
                     <br>
                     <div class="left-contact">
-                        <div class="media cont-line">
+                        <div class="media cont-line" style="width: 100%;background-color:aliceblue">
                             <div class="media-left icon-b">
                                 <i class="fa fa-envelope" aria-hidden="true"></i>
                             </div>
@@ -94,7 +95,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="media cont-line">
+                        <div class="media cont-line" style="width: 100%;background-color:aliceblue">
                             <div class="media-left icon-b">
                                 <i class="fa fa-location-arrow" aria-hidden="true"></i>
                             </div>
@@ -103,7 +104,7 @@
                                 <p>{{address}}</p>
                             </div>
                         </div>
-                        <div class="media cont-line">
+                        <div class="media cont-line" style="width: 100%;background-color:aliceblue">
                             <div class="media-left icon-b">
                                 <i class="fa fa-birthday-cake" aria-hidden="true"></i>
                             </div>
@@ -161,6 +162,15 @@
                                             <label for="address">Address</label>
                                             <input type="address" id="address" name="address" class="form-control"
                                                 placeholder="{{address}}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="avatar">Avatar</label>
+                                            <input type="avatar" id="avatar" name="avatar" class="form-control"
+                                                placeholder="{{avatar}}" />
                                         </div>
                                     </div>
                                 </div>

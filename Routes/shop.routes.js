@@ -1,4 +1,5 @@
 const express = require('express');
+const { registerteacher } = require('../Controllers/shop.controller');
 const router = express.Router();
 controllerShop = require('../Controllers/shop.controller');
 router.get('/', (req,res) => {
@@ -19,5 +20,8 @@ router.get('/checkout', (req,res) => {
 });
 router.get('/contact', (req,res) => {
     res.render('./Client/contact',{User: req.user, Page: "Contact Us", Contact:"active"});
+});
+router.get('/registerteacher',(req, res) => {
+    registerteacher(req, res, req.user._id);
 });
 module.exports = router;

@@ -1,3 +1,19 @@
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="contact">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="/cart">Cart</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
 <!-- Shoping Cart Section Begin -->
 <section class="shoping-cart spad">
     <div class="container">
@@ -17,14 +33,14 @@
                             {{#each list}}
                             <tr id="{{_id}}" `>
                                 <td class="shoping__cart__item">
-                                    <img src="{{pathImg}}" height="100px" alt="">
+                                    <img src="{{pathImg}}" height="100px" width="150ypx" alt="">
                                     <h5>{{name}}</h5>
                                 </td>
                                 <td class="shoping__cart__price">
                                     {{price}}
                                 </td>
                                 <td class="shoping__cart__price">
-                                    {{discount}}
+                                    {{discountpercent}}
                                 </td>
                                 </td>
                                 <td class="shoping__cart__item__close">
@@ -79,8 +95,11 @@
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Payment</button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <form action="/pay" method="POST">
-                                    <a class="dropdown-item" href="/pay">Paypal</a></form>
+                                <form action="/paypal" method="POST">
+                                <form class="paypal" action="http://localhost:32066/paypal" method="post">
+                                </label>
+                                       <button class="btn btn-default" id="btnPopup" type="submit">Paypal</button>
+                                </form>
                                 <form action="/pay/create_payment_url" method="POST">
                                 <label for="amount" hidden>
                                 <input class="form-control" id="amount" name="amount" placeholder="Số tiền" value={{total}} />

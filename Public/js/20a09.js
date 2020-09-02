@@ -34,7 +34,7 @@ function AddToCart(_id) {
 function RemoveCart(_id, price, discount) {
   var total = parseFloat($(`#totalprice`).text());
   total = total - price * (1 - discount);
-  $(`#totalprice`).text(total);
+  $(`#totalprice`).text(total+"$");
   $(`#${_id}`).remove();
   $.post(`/cart/delete/${_id}`);
 }
@@ -46,6 +46,7 @@ $("#gotopage").change(function () {
     ).val()}" class="btn btn-danger btn-rounded btn-sm my-0" >Đi đến</a>`
   );
 });
+
 function postcomment(idpr) {
   var cmt = $("#commenttext").val();
   $("#commenttext").val("");
@@ -133,3 +134,9 @@ $("#sortby").change(function () {
   //window.location.replace(k);
   window.location.href=k;
 });
+
+
+function myFunction() {
+  var x = document.getElementById("category").value;
+  document.getElementById("mycategory").innerHTML = x;
+}

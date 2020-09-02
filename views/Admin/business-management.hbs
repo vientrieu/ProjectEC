@@ -66,7 +66,8 @@
                 <!-- Card footer -->
                 <div class="card-footer py-4">
                     <nav aria-label="...">
-                        Có tổng cộng {{totalpages}} trang
+                        Có tổng cộng {{totalpages}} trang, đến trang số 
+                        <input id="gotopage" type="text" style="width:2rem"><span id="a">  <a href="" class="btn btn-danger btn-rounded btn-sm my-0" >Đi đến</a></span>
                         <ul class="pagination justify-content-end mb-0">
                             {{#if prev}}
                             <li class="page-item">

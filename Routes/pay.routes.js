@@ -7,11 +7,16 @@
 var express = require('express');
 var router = express.Router();
 var $ = require('jquery');
+controllerPay = require('../Controllers/pay.controller');
+var vnp_TmnCode = "1SNJ89L8";
+var vnp_HashSecret = "ODJLXOCEWMFIEJXHJNMZUVFFVRDDXLOT";
+var vnp_Url = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+var vnp_ReturnUrl = "https://hcmuseca09.herokuapp.com/pay/vnpay_return";
 
-var vnp_TmnCode="1SNJ89L8";
-var vnp_HashSecret="ODJLXOCEWMFIEJXHJNMZUVFFVRDDXLOT";
-var vnp_Url="http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-var vnp_ReturnUrl= "http://localhost:32066/pay/vnpay_return";
+const Cart = require("../Models/cart.model");
+controllerCart = require('../Controllers/cart.controller');
+controllerPay = require('../Controllers/pay.controller');
+
 router.get('/create_payment_url', function (req, res, next) {
     res.redirect('/cart');
 });
@@ -30,17 +35,17 @@ router.post('/create_payment_url', function (req, res, next) {
     var date = new Date();
     var createDate = dateFormat(date, 'yyyymmddHHmmss');
     var orderId = dateFormat(date, 'HHmmss');
-    var amount=req.body.amount;
-    var bankCode ='';
-    var orderInfo='Thanh toan don hang thoi gian: ' + dateFormat(date, 'yyyy-mm-dd HH:mm:ss');
+    var amount = req.body.amount *23200;
+    var bankCode = '';
+    var orderInfo = 'Thanh toan don hang thoi gian: ' + dateFormat(date, 'yyyy-mm-dd HH:mm:ss');
     //console.log(amount);
     //console.log(orderInfo);
     var orderType = 'billpayment';
     var locale = 'en';
-    if(locale === null || locale === ''){
+    if (locale === null || locale === '') {
         locale = 'en';
     }
-    var currCode = 'USD';
+    var currCode = 'VND';
     var vnp_Params = {};
     vnp_Params['vnp_Version'] = '2';
     vnp_Params['vnp_Command'] = 'pay';
@@ -51,11 +56,11 @@ router.post('/create_payment_url', function (req, res, next) {
     vnp_Params['vnp_TxnRef'] = orderId;
     vnp_Params['vnp_OrderInfo'] = orderInfo;
     vnp_Params['vnp_OrderType'] = orderType;
-    vnp_Params['vnp_Amount'] = amount*100;
+    vnp_Params['vnp_Amount'] = amount * 100;
     vnp_Params['vnp_ReturnUrl'] = returnUrl;
     vnp_Params['vnp_IpAddr'] = ipAddr;
     vnp_Params['vnp_CreateDate'] = createDate;
-    if(bankCode !== null && bankCode !== ''){
+    if (bankCode !== null && bankCode !== '') {
         vnp_Params['vnp_BankCode'] = bankCode;
     }
 
@@ -68,7 +73,7 @@ router.post('/create_payment_url', function (req, res, next) {
 
     var secureHash = sha256(signData);
 
-    vnp_Params['vnp_SecureHashType'] =  'SHA256';
+    vnp_Params['vnp_SecureHashType'] = 'SHA256';
     vnp_Params['vnp_SecureHash'] = secureHash;
     vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: true });
 
@@ -96,13 +101,21 @@ router.get('/vnpay_return', function (req, res, next) {
     var sha256 = require('sha256');
 
     var checkSum = sha256(signData);
-
-    if(secureHash === checkSum){
+    if (secureHash === checkSum) {
         //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
+        res.render('Pay/success.jade', { code: vnp_Params['vnp_ResponseCode'] })
+        if (vnp_Params['vnp_ResponseCode'] == '00') {
+            Cart.findOne({ iduser: req.user._id }).lean()
+                .then(async (MyCart) => {
+                    controllerPay.AddCartToCourse(req, res,req.user._id,MyCart.idproducts);
+                    controllerPay.CreateBillVNPay(req, res, req.user._id);
+                    Cart.findOneAndUpdate({ iduser: req.user._id }, { idproducts:[]}, function (err, result) { });
+                })
+                .catch((err) => console.log(err));
+        }
+    } else {
 
-        res.render('Order/success.jade', {code: vnp_Params['vnp_ResponseCode']})
-    } else{
-        res.render('Order/success.jade', {code: '97'})
+        res.render('Pay/success.jade', { code: '97' })
     }
 });
 
@@ -114,23 +127,23 @@ router.get('/vnpay_ipn', function (req, res, next) {
     delete vnp_Params['vnp_SecureHashType'];
 
     vnp_Params = sortObject(vnp_Params);
-    var config = require('config');
-    var secretKey = config.get('vnp_HashSecret');
+    var secretKey = vnp_HashSecret;
     var querystring = require('qs');
     var signData = secretKey + querystring.stringify(vnp_Params, { encode: false });
-    
+
     var sha256 = require('sha256');
 
     var checkSum = sha256(signData);
-
-    if(secureHash === checkSum){
+    if (secureHash === checkSum) {
         var orderId = vnp_Params['vnp_TxnRef'];
         var rspCode = vnp_Params['vnp_ResponseCode'];
+        
         //Kiem tra du lieu co hop le khong, cap nhat trang thai don hang va gui ket qua cho VNPAY theo dinh dang duoi
-        res.status(200).json({RspCode: '00', Message: 'success'})
+        res.status(200).json({ RspCode: '00', Message: 'success' })
     }
     else {
-        res.status(200).json({RspCode: '97', Message: 'Fail checksum'})
+        res.status(200).json({ RspCode: '97', Message: 'Fail checksum' })
+
     }
 });
 

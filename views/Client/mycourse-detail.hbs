@@ -9,6 +9,9 @@
         $("#videoarea").attr({
             "src": $("#playlist li").eq(0).attr("movieurl")
         })
+        $("#playlist li").click(function () {
+            $("#test").animate({scrollTop: 0}, 1000);
+        })
     })
 </script>
 
@@ -53,11 +56,11 @@
                         {{!-- <iframe width="1000" height="500" src="{{this}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> --}}
                         <iframe id="videoarea" title="videoarea" width="800" height="490" frameborder="0"
                             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
+                            allowfullscreen></iframe>    
                         <ul id="playlist" class="groceries">
                             {{#each Product.video}}
                             <li movieurl="{{this}}">
-                                <div id="chu"> Course {{@index}} </div>
+                                <div id="chu"> Lesson {{@index}} </div>
                             </li>
                             <div id="chu1"> <iframe id="chu1" style='height: 100px; width: 150px; object-fit: contain'
                                     src="{{this}}" frameborder="0"
@@ -75,7 +78,8 @@
                         <div class="col-lg-6">
                             <div class="blog__details__author">
                                 <div class="blog__details__author__pic">
-                                    <img src={{Product.pathImg}} alt="">
+                                    <img class="product__details__pic__item--large border2 border-dark"
+                            style="border-radius: 30px; height: 450px; width: 450px" src="{{Product.pathImg}}" alt="">
                                 </div>
                                 <div class="blog__details__author__text">
                                     <h6>{{Product.author.name}}</h6>

@@ -1,16 +1,16 @@
 const setRole = (req, res) => {
-    if (req.user.role === 0) {
-        res.locals.isStudent = true;
-        res.locals.isTeacher = false;
-        res.locals.isAdmin = false;
-    }
-    else if (req.user.role === 1) {
-        res.locals.Checking = true;
+    if (req.user.role === 1) {
         res.locals.isStudent = true;
         res.locals.isTeacher = false;
         res.locals.isAdmin = false;
     }
     else if (req.user.role === 2) {
+        res.locals.Checking = true;
+        res.locals.isStudent = true;
+        res.locals.isTeacher = false;
+        res.locals.isAdmin = false;
+    }
+    else if (req.user.role === 0) {
         res.locals.isStudent = false;
         res.locals.isTeacher = true;
         res.locals.isAdmin = false;
@@ -33,21 +33,21 @@ module.exports = {
         // setRole(req, res);
         if (res.locals.isTeacher) return next();
         else {
-            res.render('../Views/error', {layout:''})
+            res.render('../views/error', {layout:''})
         }
     },
     isUser: (req, res, next) => {
         // setRole(req, res);
         if (res.locals.isTeacher || res.locals.isStudent) return next();
         else {
-            res.render('../Views/error', {layout:''})
+            res.render('../views/error', {layout:''})
         }
     },
     isAdmin: (req, res, next) => {
         // setRole(req, res);
         if (res.locals.isAdmin) return next();
         else {
-            res.render('../Views/error', {layout:''})
+            res.render('../views/error', {layout:''})
         }
     }
 }
